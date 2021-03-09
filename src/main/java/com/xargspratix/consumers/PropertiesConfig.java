@@ -5,7 +5,7 @@ package com.xargspratix.consumers ;
 import java.util.Properties;
 
 public class PropertiesConfig {
-    public static final String BROKERS = "192.168.1.158:9092";
+    public static final String BROKERS = "192.168.1.158:9092, 192.168.1.163:9092, 192.168.1.164:9092";
 
     public static Properties getProducerProps() {
         Properties props = new Properties();
@@ -16,14 +16,11 @@ public class PropertiesConfig {
         return props;
     }
 
-    public static Properties getConsumerProps(boolean autoCommit, Long autoCommitMillisInterval) {
+    public static Properties getConsumerProps() {
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", BROKERS);
         props.setProperty("group.id", "testGroup");
-        props.setProperty("enable.auto.commit", Boolean.toString(autoCommit));
-        if (autoCommit) {
-            props.setProperty("auto.commit.interval.ms", Long.toString(autoCommitMillisInterval));
-        }
+        props.setProperty("enable.auto.commit", "false");
         props.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         return props;

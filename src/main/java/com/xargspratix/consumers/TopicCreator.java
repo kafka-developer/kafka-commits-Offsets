@@ -15,7 +15,7 @@ public class TopicCreator {
 
     private static void createTopic(String topicName, int numPartitions) throws Exception {
         Properties config = new Properties();
-        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, ExampleConfig.BROKERS);
+        config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, PropertiesConfig.BROKERS);
         AdminClient admin = AdminClient.create(config);
 
         //checking if topic already exists

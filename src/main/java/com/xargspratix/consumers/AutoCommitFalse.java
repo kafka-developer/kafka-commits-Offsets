@@ -26,7 +26,7 @@ public class AutoCommitFalse {
     }
 
     private static void startConsumer() {
-        Properties consumerProps = PropertiesConfig.getConsumerProps(false, null);
+        Properties consumerProps = PropertiesConfig.getConsumerProps();
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps);
         TopicPartition topicPartition = new TopicPartition(TOPIC_NAME, 0);
         consumer.assign(Collections.singleton(topicPartition));

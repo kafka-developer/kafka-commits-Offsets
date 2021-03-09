@@ -1,4 +1,4 @@
-package com.xargspratix.consumers ;
+package com.xargspratix.consumers;
 
 
 
