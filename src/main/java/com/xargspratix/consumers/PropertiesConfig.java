@@ -17,11 +17,13 @@ public class PropertiesConfig {
     public static Properties getConsumerProps(boolean autoCommit, Long autoCommitMillisInterval) {
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", BROKERS);
-        props.setProperty("group.id", "testGroup");
+        props.setProperty("group.id", "CreateGroup");
         props.setProperty("enable.auto.commit", Boolean.toString(autoCommit));
         props.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         return props;
     }
+
+
 }
 

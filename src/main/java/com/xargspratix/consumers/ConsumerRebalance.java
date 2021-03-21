@@ -28,13 +28,13 @@ public class ConsumerRebalance {
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps);
         consumer.subscribe(Collections.singleton("commits-offsets"),
                 new ConsumerRebalanceListener() {
-                    @Override
+                    @Override  // onPartitionsRevoked() This is called before rebalancing starts and after the consumer stopped consuming messages.
+                               // This is where you want to commit offsets,so whomever get this partition next will know where to start
                     public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
                         System.out.printf("onPartitionsRevoked - consumerName: %s, partitions: %s%n", name,
                                 formatPartitions(partitions));
                     }
-
-                    @Override
+                    @Override   // onPartitionsAssigned() This is called partitions have been reassigned to the broker, but before the consumer starts consuming messages.
                     public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
                         System.out.printf("onPartitionsAssigned - consumerName: %s, partitions: %s%n", name,
                                 formatPartitions(partitions));
