@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class TopicCreator {
     public static void main(String[] args) throws Exception {
-        createTopic("example-topic-2020-5-7a", 1);
-        createTopic("example-topic-2020-5-7b", 1);
+        //createTopic("commits-offsets", 3);
+        createTopic("consumer-rebalance", 1);
     }
 
     private static void createTopic(String topicName, int numPartitions) throws Exception {

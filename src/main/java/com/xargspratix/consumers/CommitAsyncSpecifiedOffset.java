@@ -10,12 +10,12 @@ import java.time.Duration;
 import java.util.*;
 
 public class CommitAsyncSpecifiedOffset {
-    private static String TOPIC_NAME = "example-topic-2020-5-28c";
+    private static String TOPIC_NAME = "commits-offsets";
     private static KafkaConsumer<String, String> consumer;
     private static TopicPartition topicPartition;
 
     public static void main(String[] args) throws Exception {
-        Properties consumerProps = PropertiesConfig.getConsumerProps();
+        Properties consumerProps = PropertiesConfig.getConsumerProps(false,1000L);
         consumer = new KafkaConsumer<>(consumerProps);
         topicPartition = new TopicPartition(TOPIC_NAME, 0);
         consumer.assign(Collections.singleton(topicPartition));
@@ -57,7 +57,7 @@ public class CommitAsyncSpecifiedOffset {
     }
 
     private static void sendMessages() {
-        Properties producerProps = com.xargspratix.consumers.PropertiesConfig.getProducerProps();
+        Properties producerProps = PropertiesConfig.getProducerProps();
         KafkaProducer producer = new KafkaProducer<>(producerProps);
         for (int i = 0; i < 4; i++) {
             String value = "message-" + i;

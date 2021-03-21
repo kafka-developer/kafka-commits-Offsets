@@ -15,24 +15,24 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class AutoCommit {
-    private static String TOPIC_NAME = "example-topic-2020-5-7a";
-    private static int MSG_COUNT = 4;
+    private static String TOPIC_NAME = "commits-offsets";
+    private static int MSG_COUNT = 100;
 
     public static void main(String[] args) throws Exception {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(AutoCommit::startConsumer);
         executorService.execute(AutoCommit::sendMessages);
         executorService.shutdown();
-        executorService.awaitTermination(10, TimeUnit.MINUTES);
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
     }
 
     private static void startConsumer() {
-        Properties consumerProps = PropertiesConfig.getConsumerProps();
+        Properties consumerProps = PropertiesConfig.getConsumerProps(true, 1000L);
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps);
         TopicPartition topicPartition = new TopicPartition(TOPIC_NAME, 0);
         consumer.assign(Collections.singleton(topicPartition));
         while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(5));
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
             for (ConsumerRecord<String, String> record : records) {
                 System.out.printf("consumed: key = %s, value = %s, partition id= %s, offset = %s%n",
                         record.key(), record.value(), record.partition(), record.offset());
@@ -57,7 +57,7 @@ public class AutoCommit {
     }
 
     private static void sendMessages() {
-        Properties producerProps = com.xargspratix.consumers.PropertiesConfig.getProducerProps();
+        Properties producerProps = PropertiesConfig.getProducerProps();
         KafkaProducer producer = new KafkaProducer<>(producerProps);
         for (int i = 0; i < MSG_COUNT; i++) {
             String value = "message-" + i;

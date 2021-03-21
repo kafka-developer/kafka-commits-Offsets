@@ -24,9 +24,9 @@ public class ConsumerRebalance {
     }
 
     private static KafkaConsumer<String, String> startConsumer(String name) {
-        Properties consumerProps = PropertiesConfig.getConsumerProps();
+        Properties consumerProps = PropertiesConfig.getConsumerProps(false,1000L);
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps);
-        consumer.subscribe(Collections.singleton("example-topic-2020-6-24"),
+        consumer.subscribe(Collections.singleton("commits-offsets"),
                 new ConsumerRebalanceListener() {
                     @Override
                     public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
